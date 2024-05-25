@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let timeContainer = document.querySelector('.time');
 
     btn.onclick = function () {
+        let backgroundAudio = new Audio('https://universal-soundbank.com/sounds/5198.mp3');
+        backgroundAudio.loop = true;
+        backgroundAudio.play();
         let score = 0;
         let time = 30;
         let intervalTime = 1000;
@@ -60,6 +63,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 container.style.justifyContent = 'center';
                 container.style.alignItems = 'center';
                 container.style.height = '100%';
+
+                backgroundAudio.pause();
+                backgroundAudio.currentTime = 0;
+
+                let audio = new Audio('https://universal-soundbank.com/sounds/253.mp3');
+                audio.play();
             }
         }, 1000);
 
