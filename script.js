@@ -5,7 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
     let timeContainer = document.querySelector('.time');
     let bestScoreContainer = document.querySelector('.best_score');
     let isGameRunning = false;
+    let rows = 10;
+    let cols = 10;
+    let targetSize = 80; // Taille des cibles
 
+    // Mettre à jour le meilleur score à l'ouverture de la page
     function updateBestScoreDisplay() {
         let bestScore = getCookie('bestScore');
         bestScoreContainer.innerHTML = 'Meilleur Score : ' + (bestScore ? bestScore : 0);
@@ -15,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     btn.onclick = function () {
         if (isGameRunning) {
-            return;
+            return; // Empêche de démarrer une nouvelle partie si une partie est déjà en cours
         }
 
         isGameRunning = true;
@@ -26,21 +30,35 @@ document.addEventListener('DOMContentLoaded', function() {
         let time = 30;
         let intervalTime = 1000;
 
+        // Initialiser le score et l'afficher
         scoreContainer.innerHTML = 'Score : 0';
 
         container.innerHTML = '';
         container.style.position = 'relative';
+
+        let cellWidth = container.clientWidth / cols;
+        let cellHeight = container.clientHeight / rows;
 
         function showTarget() {
             let target = document.createElement('img');
             target.id = 'target';
             let randomNumber = Math.floor(Math.random() * 11) + 1;
             target.src = 'assets_folder/target-' + randomNumber + '.png';
-            container.appendChild(target);
 
+            let randomRow, randomCol;
+            do {
+                randomRow = Math.floor(Math.random() * (rows - 2)) + 1; // Exclut la première et la dernière ligne
+                randomCol = Math.floor(Math.random() * cols);
+            } while (container.querySelector(`.row-${randomRow}.col-${randomCol}`));
+
+            target.classList.add(`row-${randomRow}`, `col-${randomCol}`);
+            target.style.width = targetSize + 'px';
+            target.style.height = targetSize + 'px';
             target.style.position = 'absolute';
-            target.style.top = Math.random() * (container.clientHeight - target.clientHeight) + 'px';
-            target.style.left = Math.random() * (container.clientWidth - target.clientWidth) + 'px';
+            target.style.top = randomRow * cellHeight + 'px';
+            target.style.left = randomCol * cellWidth + 'px';
+
+            container.appendChild(target);
 
             setTimeout(function () {
                 target.remove();
@@ -50,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 score += 1;
                 target.style.display = 'none';
                 scoreContainer.innerHTML = 'Score : ' + score;
-                
+
                 let audio = new Audio('https://universal-soundbank.com/sounds/3570.mp3');
                 audio.play();
 
@@ -91,13 +109,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     updateBestScoreDisplay();
                 }
 
-                isGameRunning = false;
+                isGameRunning = false; // Réinitialise l'état du jeu
             }
         }, 1000);
 
         let targetInterval = setInterval(showTarget, intervalTime);
     };
 
+    // Fonction pour définir un cookie
     function setCookie(name, value, days) {
         let expires = "";
         if (days) {
@@ -108,6 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.cookie = name + "=" + (value || "") + expires + "; path=/";
     }
 
+    // Fonction pour obtenir un cookie
     function getCookie(name) {
         let nameEQ = name + "=";
         let ca = document.cookie.split(';');
