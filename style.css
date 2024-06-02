@@ -46,6 +46,7 @@ body {
     width: 20%;
     position: absolute;
     transition: 0.25s;
+    animation: rotateTarget 4s linear infinite, moveTarget 2s ease-in-out infinite;
 }
 
 button {
@@ -59,8 +60,20 @@ button {
     margin-bottom: 20px;
 }
 
-@keyframes animateTarget {
+@keyframes rotateTarget {
+    from {
+        transform: rotate(0deg);
+    }
     to {
-        transform: translateY(-200px) rotate(90deg); 
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes moveTarget {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
     }
 }
