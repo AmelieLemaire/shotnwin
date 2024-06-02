@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let scoreContainer = document.querySelector('.score');
     let timeContainer = document.querySelector('.time');
     let bestScoreContainer = document.querySelector('.best_score');
+    let isGameRunning = false;
 
     // Mettre à jour le meilleur score à l'ouverture de la page
     function updateBestScoreDisplay() {
@@ -14,12 +15,21 @@ document.addEventListener('DOMContentLoaded', function() {
     updateBestScoreDisplay();
 
     btn.onclick = function () {
+        if (isGameRunning) {
+            return; // Empêche de démarrer une nouvelle partie si une partie est déjà en cours
+        }
+
+        isGameRunning = true;
         let backgroundAudio = new Audio('https://universal-soundbank.com/sounds/5198.mp3');
         backgroundAudio.loop = true;
         backgroundAudio.play();
         let score = 0;
         let time = 30;
         let intervalTime = 1000;
+        
+        // Initialiser le score et l'afficher
+        scoreContainer.innerHTML = 'Score : 0';
+
         container.innerHTML = '';
         container.style.width = '500px';
         container.style.height = '400px';
@@ -84,6 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     setCookie('bestScore', score, 365);
                     updateBestScoreDisplay();
                 }
+
+                isGameRunning = false; // Réinitialise l'état du jeu
             }
         }, 1000);
 
