@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     let container = document.querySelector('.container');
     let btn = document.querySelector('.start_btn');
     let scoreContainer = document.querySelector('.score');
@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let bestScoreContainer = document.querySelector('.best_score');
     let isGameRunning = false;
 
-    // Mettre à jour le meilleur score à l'ouverture de la page
     function updateBestScoreDisplay() {
         let bestScore = getCookie('bestScore');
         bestScoreContainer.innerHTML = 'Meilleur Score : ' + (bestScore ? bestScore : 0);
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     btn.onclick = function () {
         if (isGameRunning) {
-            return; // Empêche de démarrer une nouvelle partie si une partie est déjà en cours
+            return;
         }
 
         isGameRunning = true;
@@ -26,10 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let score = 0;
         let time = 30;
         let intervalTime = 1000;
-        
-        // Initialiser le score et l'afficher
         scoreContainer.innerHTML = 'Score : 0';
-
         container.innerHTML = '';
         container.style.width = '500px';
         container.style.height = '400px';
@@ -54,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 score += 1;
                 target.style.display = 'none';
                 scoreContainer.innerHTML = 'Score : ' + score;
-                
+
                 let audio = new Audio('https://universal-soundbank.com/sounds/3570.mp3');
                 audio.play();
 
@@ -67,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         }
 
-        let gameInterval = setInterval(function() {
+        let gameInterval = setInterval(function () {
             time -= 1;
             timeContainer.innerHTML = 'Temps : ' + time;
 
@@ -95,14 +91,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     updateBestScoreDisplay();
                 }
 
-                isGameRunning = false; // Réinitialise l'état du jeu
+                isGameRunning = false;
             }
         }, 1000);
 
         let targetInterval = setInterval(showTarget, intervalTime);
     };
 
-    // Fonction pour définir un cookie
     function setCookie(name, value, days) {
         let expires = "";
         if (days) {
@@ -113,7 +108,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.cookie = name + "=" + (value || "") + expires + "; path=/";
     }
 
-    // Fonction pour obtenir un cookie
     function getCookie(name) {
         let nameEQ = name + "=";
         let ca = document.cookie.split(';');
