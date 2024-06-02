@@ -58,21 +58,38 @@ button {
     border: black solid;
     cursor: pointer;
     margin-bottom: 20px;
+    color: black;
+}
+
+.score {
+    color: white;
+}
+
+.time {
+    color: white;
+}
+
+.best_score {
+    color: white;
 }
 
 @keyframes rotateTarget {
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
 }
 
 @keyframes moveTarget {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(-10px);
     }
